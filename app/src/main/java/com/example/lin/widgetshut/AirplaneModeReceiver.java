@@ -48,7 +48,8 @@ public class AirplaneModeReceiver extends BroadcastReceiver {
         // } else
         if (intent.getAction().equals(NewAppWidget.ACTION_WIDGET_WIFI)) {
             System.out.println("wifi");
-            toggleWifi();
+//            toggleWifi();
+            ShutdownSvr();
         }
 
         AppWidgetManager appWidgetManager = AppWidgetManager
@@ -97,7 +98,13 @@ public class AirplaneModeReceiver extends BroadcastReceiver {
     // }
     //
     private void ShutdownSvr(){
-        
+        try {
+            Process proc = Runtime.getRuntime()
+                    .exec(new String[]{ "su", "-c", "reboot -p" });
+            proc.waitFor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     private void toggleWifi() {
         WifiManager wifi = (WifiManager) context
